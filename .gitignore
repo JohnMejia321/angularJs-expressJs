@@ -1,0 +1,9 @@
+# Ignorar la carpeta node_modules en todo el proyecto
+node_modules/
+uploads/
+
+# Otros archivos generados por Node.js o npm que también se pueden ignorar
+package-lock.json
+npm-debug.log
+yarn-debug.log
+yarn-error.log

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+    <title>File Upload</title>
+    <!-- Agregar AngularJS (versión antigua) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+    <script>
+        // app.js
+        angular.module('myApp', [])
+        .controller('MainController', function($scope, $http) {
+            $scope.uploadFile = function(files) {
+                if (!files || files.length === 0) {
+                    console.error('No file selected.');
+                    return;
+                }
+
+                // Tomar el primer archivo seleccionado
+                var file = files[0];
+
+                var formData = new FormData();
+                formData.append('file', file);
+
+                $http.post('http://localhost:3000/upload', formData, {
+                    transformRequest: angular.identity,
+                    headers: { 'Content-Type': undefined }
+                }).then(function(response) {
+                    // Handle success (e.g., save URL to MongoDB)
+                    console.log('File uploaded successfully:', response.data.url);
+                }, function(error) {
+                    // Handle error
+                    console.error('Error uploading file:', error);
+                });
+            };
+        });
+    </script>
+</head>
+<body ng-controller="MainController">
+    <!-- Input para seleccionar archivos -->
+    <input type="file" id="fileInput"  multiple onchange="angular.element(this).scope().uploadFile(this.files)">
+    <!-- Botón para abrir el diálogo de selección de archivos -->
+    <button ng-click="document.getElementById('fileInput').click()">Select File</button>
+</body>
+</html>
